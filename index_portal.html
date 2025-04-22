@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="vi"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trung tâm Điều hành An ninh mạng SOC | SOC Service Website</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* --- CSS Variables --- */
+        :root {
+            --primary-color: #0d47a1; /* Darker Blue */
+            --secondary-color: #00acc1; /* Teal */
+            --accent-color: #f57c00; /* Orange */
+            --text-color: #37474f; /* Dark Grey Blue */
+            --heading-color: #0d47a1; 
+            --light-gray: #f5f7fa; /* Lighter background */
+            --medium-gray: #e0e0e0;
+            --dark-gray: #78909c; /* Lighter dark gray */
+            --white: #ffffff;
+            --black: #212121;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --gradient-start: #1e88e5; /* Blue gradient */
+            --gradient-end: #00acc1;   /* Teal gradient */
+            --section-padding: 70px 20px;
+            --card-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 10px; /* Slightly larger radius */
+            --transition-speed: 0.3s;
+        }
+
+        /* --- Reset & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Use Poppins */
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--heading-color);
+            margin-bottom: 1.2rem;
+            line-height: 1.3;
+            font-weight: 600; /* Semi-bold headings */
+        }
+
+        h1 { font-size: 2.8rem; font-weight: 700;}
+        h2 { 
+            font-size: 2.3rem; 
+            text-align: center; 
+            margin-bottom: 50px; /* More space below H2 */
+            position: relative; 
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+            margin: 15px auto 0;
+        }
+        h3 { font-size: 1.6rem; font-weight: 600; }
+        h4 { font-size: 1.2rem; color: var(--secondary-color); font-weight: 500;}
+
+        p { margin-bottom: 1.1rem; }
+        a { color: var(--accent-color); text-decoration: none; transition: color var(--transition-speed) ease; }
+        a:hover { color: var(--primary-color); text-decoration: none; /* Remove underline on hover, color change is enough */ }
+        ul { list-style-position: outside; margin-bottom: 1rem; padding-left: 20px; } /* Standard outside list style */
+        li { margin-bottom: 0.6rem; }
+        img { max-width: 100%; height: auto; display: block; border-radius: var(--border-radius); /* Rounded images by default */ }
+        section { padding: var(--section-padding); }
+        section:nth-of-type(even) { background-color: var(--light-gray); }
+        .container { max-width: 1140px; margin: 0 auto; padding-left: 15px; padding-right: 15px; } /* Standard container */
+        
+        /* Accessibility focus outline */
+        :focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+        /* Helper class for subtle text */
+        .text-muted { color: var(--dark-gray); font-size: 0.9em; }
+
+        /* Icon base style */
+        i.fas, i.fab, i.far { 
+            margin-right: 8px; /* Space after icon */
+            /* color: var(--secondary-color); Optional: Default icon color */
+            min-width: 1.2em; /* Ensure icons align vertically */
+            text-align: center;
+        }
+
+        /* --- Language Switcher Styles --- */
+        .lang-switch { 
+            text-align: right; 
+            padding: 8px 20px; 
+            background-color: #e9eef2; 
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0; /* Make it full width */
+            z-index: 1001;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: flex-end; /* Align buttons right */
+        }
+        .lang-switch button {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+        .lang-switch button:hover {
+            background-color: rgba(13, 71, 161, 0.1); /* Light primary color bg */
+            color: var(--primary-color);
+        }
+         .lang-switch button.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+         /* Hide/Show Logic (No changes needed here) */
+        [lang="en"] { display: none; } 
+        html[lang="vi"] [lang="vi"] { display: inline; }
+        html[lang="vi"] [lang="en"] { display: none; }
+        html[lang="en"] [lang="en"] { display: inline; }
+        html[lang="en"] [lang="vi"] { display: none; }
+        html[lang="vi"] p[lang="vi"], html[lang="en"] p[lang="en"],
+        html[lang="vi"] h1[lang="vi"], html[lang="en"] h1[lang="en"],
+        html[lang="vi"] h3[lang="vi"], html[lang="en"] h3[lang="en"],
+        html[lang="vi"] h4[lang="vi"], html[lang="en"] h4[lang="en"],
+        html[lang="vi"] div[lang="vi"], html[lang="en"] div[lang="en"],
+        html[lang="vi"] blockquote[lang="vi"], html[lang="en"] blockquote[lang="en"],
+        html[lang="vi"] label[lang="vi"], html[lang="en"] label[lang="en"],
+        html[lang="vi"] li[lang="vi"], html[lang="en"] li[lang="en"],
+        html[lang="vi"] cite[lang="vi"], html[lang="en"] cite[lang="en"]
+         { display: block; }
+        html[lang="vi"] button[lang="vi"], html[lang="en"] button[lang="en"],
+        html[lang="vi"] strong[lang="vi"], html[lang="en"] strong[lang="en"],
+        html[lang="vi"] span[lang="vi"], html[lang="en"] span[lang="en"], /* Ensure spans display */
+        html[lang="vi"] a[lang="vi"], html[lang="en"] a[lang="en"] /* Ensure links display */
+        { display: inline; }
+        html[lang="vi"] i[lang="vi"], html[lang="en"] i[lang="en"] { display: inline-block; /* Make icons display correctly */}
+        html[lang="vi"] img[lang="vi"], html[lang="en"] img[lang="en"] { display: block; /* Ensure images display correctly */}
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: var(--white);
+            padding: 0.8rem 0; /* Reduced padding */
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+            position: sticky;
+            top: 40px; /* Adjusted for lang switcher height */
+            z-index: 1000;
+            width: 100%;
+        }
+        nav ul { list-style: none; padding: 0; margin: 0; }
+        nav ul li { display: inline-block; margin: 0 12px; }
+        nav ul li a { 
+            color: var(--text-color); 
+            text-decoration: none; 
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+            font-weight: 500; /* Medium weight */
+            font-size: 0.95rem;
+        }
+        nav ul li a:hover { 
+            background-color: rgba(13, 71, 161, 0.05); /* Very light blue */
+            color: var(--primary-color);
+        }
+        nav ul li a.active { 
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+
+        /* --- CTA Button --- */
+        .cta-button { 
+            display: inline-block; 
+            padding: 14px 30px; /* Slightly larger */ 
+            margin: 10px 5px; 
+            background-color: var(--accent-color); 
+            color: var(--white) !important; 
+            text-decoration: none !important; 
+            border: none;
+            border-radius: var(--border-radius); 
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            font-weight: 600; /* Semi-bold */
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(245, 124, 0, 0.3); /* Subtle shadow */
+        }
+        .cta-button:hover { 
+            background-color: #ef6c00; /* Darker Orange */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(245, 124, 0, 0.4);
+            color: var(--white) !important;
+        }
+        .cta-button.secondary { 
+            background-color: var(--white); 
+            color: var(--primary-color) !important;
+            border: 2px solid var(--primary-color);
+            box-shadow: none;
+        }
+        .cta-button.secondary:hover { 
+            background-color: var(--primary-color); 
+            color: var(--white) !important;
+            box-shadow: 0 4px 15px rgba(13, 71, 161, 0.2);
+        }
+        .cta-button i { margin-left: 8px; /* Space before icon if used on button */ }
+
+
+        /* --- Home Section --- */
+        #home {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end)); 
+            color: var(--white); 
+            text-align: center;
+            padding: 120px 20px 100px 20px; /* Increased padding */
+            position: relative;
+            overflow: hidden; 
+        }
+        /* Optional: Add subtle pattern or shapes */
+        #home::before {
+             content: "";
+             position: absolute;
+             bottom: -50px;
+             left: -50px;
+             width: 200px;
+             height: 200px;
+             background: rgba(255, 255, 255, 0.1);
+             border-radius: 50%;
+             opacity: 0.5;
+        }
+         #home::after {
+             content: "";
+             position: absolute;
+             top: -40px;
+             right: -60px;
+             width: 250px;
+             height: 250px;
+             background: rgba(255, 255, 255, 0.08);
+             border-radius: 45%;
+             transform: rotate(30deg);
+             opacity: 0.5;
+         }
+        #home .container { position: relative; z-index: 2; }
+        #home h1 { color: var(--white); font-size: 3.2rem; margin-bottom: 1.5rem; }
+        #home p { font-size: 1.15rem; max-width: 750px; margin-left: auto; margin-right: auto; opacity: 0.95; margin-bottom: 2rem;}
+        #home .cta-button { background-color: var(--white); color: var(--accent-color) !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);}
+        #home .cta-button:hover { background-color: #f1f1f1; }
+        #home .cta-button.secondary { background-color: transparent; border: 2px solid var(--white); color: var(--white) !important; box-shadow: none;}
+        #home .cta-button.secondary:hover { background-color: rgba(255,255,255,0.15); }
+        #home .icons-showcase { 
+            margin-top: 50px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 40px; 
+            opacity: 0.9;
+            color: var(--white);
+        }
+        #home .icons-showcase div { text-align: center; }
+        #home .icons-showcase i { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        #home .icons-showcase span { font-size: 0.9em; display: block; }
+        
+
+        /* --- About Us Section --- */
+        #about-us .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px; /* Increased gap */
+            align-items: center;
+        }
+        #about-us .text-content { flex: 1.2; min-width: 320px; } /* Give text slightly more space */
+        #about-us .image-content { 
+            flex: 1; 
+            min-width: 320px; 
+            display: grid; /* Use grid for better image layout */
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        #about-us .image-content img { 
+             width: 100%; /* Make images fill grid cell */
+             height: 250px; /* Fixed height for consistency */
+             object-fit: cover; /* Cover the area */
+             box-shadow: var(--card-shadow);
+             transition: transform var(--transition-speed) ease;
+        }
+        #about-us .image-content img:hover {
+             transform: scale(1.05);
+        }
+
+
+        /* --- Service Catalogue & Blog --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .service-card, .blog-card { 
+            border: 1px solid #eaf0f6; /* Lighter border */
+            padding: 30px; 
+            background-color: var(--white); 
+            border-radius: var(--border-radius); 
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column; /* Stack content */
+        }
+        .service-card:hover, .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        .service-card .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .service-card h3, .blog-card h3 { 
+            margin-top: 0; 
+            font-size: 1.4rem; 
+            margin-bottom: 0.8rem; /* Reduced margin */
+        }
+        .service-card p, .blog-card p {
+            flex-grow: 1; /* Make paragraph take up space */
+            margin-bottom: 1.5rem; /* Space before link */
+        }
+        .service-card a, .blog-card a { 
+            font-weight: 600; /* Bolder link */
+            margin-top: auto; /* Push link to bottom */
+            color: var(--accent-color);
+        }
+        .service-card a:hover, .blog-card a:hover {
+            color: var(--primary-color);
+        }
+        .blog-card .meta { font-size: 0.85em; color: var(--dark-gray); margin-bottom: 10px; }
+        .blog-card .meta i { margin-right: 5px; font-size: 0.9em;}
+
+
+        /* --- Service Detail Pages --- */
+        .service-detail-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            background-color: var(--white); /* White background for detail */
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: -20px; /* Pull up slightly */
+        }
+        .service-detail-text { flex: 1.5; min-width: 320px; }
+        .service-detail-visual { flex: 1; min-width: 300px; }
+        .service-detail-visual img, .service-detail-visual .placeholder { 
+             border: 1px solid var(--medium-gray); 
+             padding: 0; /* Remove padding if image fills */
+             border-radius: var(--border-radius);
+             background-color: var(--light-gray);
+             text-align: center;
+             color: var(--dark-gray);
+             height: 300px; /* Set height for placeholder */
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             font-style: italic;
+         }
+          .service-detail-visual img {
+             object-fit: cover; /* Cover the area */
+             height: auto; /* Reset height for actual images */
+          }
+        .service-detail-text ul { list-style-type: none; padding-left: 0;}
+        .service-detail-text ul li { 
+            padding-left: 25px; 
+            position: relative; 
+            margin-bottom: 0.8rem;
+        }
+        .service-detail-text ul li::before {
+            content: '\f058'; /* Font Awesome check-circle */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900; /* Solid style */
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            top: 2px; 
+        }
+
+
+        /* --- Pricing Section --- */
+        .pricing-table { 
+            display: grid; /* Use grid for better control */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; 
+            margin-top: 40px;
+        }
+        .pricing-tier { 
+            border: 1px solid var(--medium-gray); 
+            padding: 35px 30px; 
+            text-align: center; 
+            background-color: var(--white); 
+            border-radius: var(--border-radius); 
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            display: flex; 
+            flex-direction: column; 
+        }
+        .pricing-tier:hover {
+             transform: translateY(-5px);
+             box-shadow: var(--card-hover-shadow);
+        }
+        .pricing-tier.highlight {
+            border: 2px solid var(--primary-color);
+            transform: scale(1.03); 
+            background-color: #f0f6ff; /* Light blue background */
+            position: relative; /* For badge */
+            overflow: hidden; /* Hide overflow */
+        }
+        .pricing-tier.highlight::before { /* "Popular" Badge */
+             content: attr(data-popular-text-vi) " / " attr(data-popular-text-en);
+             position: absolute;
+             top: 15px;
+             right: -40px;
+             background-color: var(--accent-color);
+             color: var(--white);
+             padding: 5px 40px;
+             font-size: 0.8rem;
+             font-weight: 600;
+             transform: rotate(45deg);
+             text-align: center;
+             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+         /* Adjust badge position based on language */
+        html[lang="vi"] .pricing-tier.highlight::before { content: attr(data-popular-text-vi); }
+        html[lang="en"] .pricing-tier.highlight::before { content: attr(data-popular-text-en); }
+
+         .pricing-tier.highlight:hover {
+             transform: scale(1.05) translateY(-5px);
+             box-shadow: 0 12px 35px rgba(13, 71, 161, 0.2);
+         }
+        .pricing-tier h3 { color: var(--primary-color); margin-top: 0; margin-bottom: 0.5rem;}
+        .pricing-tier .tier-description {
+            font-size: 0.9em;
+            color: var(--dark-gray);
+            min-height: 40px; /* Ensure space even if no description */
+            margin-bottom: 1rem;
+        }
+        .pricing-tier .price { font-size: 1.8rem; font-weight: 700; color: var(--heading-color); margin: 10px 0 20px 0; }
+        .pricing-tier .price span { font-size: 0.8rem; font-weight: 400; color: var(--dark-gray); }
+        .pricing-tier ul { 
+            list-style: none; 
+            padding: 0; 
+            margin: 20px 0; 
+            text-align: left; 
+            flex-grow: 1; 
+        }
+        .pricing-tier ul li { 
+             margin-bottom: 12px; 
+             padding-left: 28px; 
+             position: relative;
+             font-size: 0.95rem;
+        }
+        .pricing-tier ul li i {
+            color: var(--secondary-color); /* Teal checkmark */
+            position: absolute;
+            left: 0;
+            top: 4px; 
+            font-size: 1.1em;
+        }
+        .pricing-tier .cta-button { margin-top: auto; }
+
+
+        /* --- Case Studies / Clients --- */
+        .case-study-item { 
+            background: var(--white);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            border-left: 6px solid var(--secondary-color);
+         }
+         .case-study-item h4 { color: var(--primary-color); margin-top: 0;}
+         .case-study-item p:last-of-type { margin-bottom: 0; } /* Remove margin from last p */
+         
+        .client-logos-container h3 { text-align: center; margin-top: 50px;}
+        .client-logos { 
+            text-align: center; 
+            margin: 30px 0 50px 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px; /* Increased gap */
+            padding: 20px 0;
+            border-top: 1px solid var(--medium-gray);
+            border-bottom: 1px solid var(--medium-gray);
+            background-color: var(--light-gray); /* Subtle bg */
+        }
+        .client-logos img { 
+            max-width: 130px; 
+            max-height: 55px; /* Adjusted height */
+            margin: 0; /* Remove margin if using gap */
+            filter: grayscale(100%); 
+            opacity: 0.65;
+            transition: filter var(--transition-speed) ease, opacity var(--transition-speed) ease, transform var(--transition-speed) ease; 
+        }
+        .client-logos img:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
+        
+        .testimonials-container h3 { text-align: center; margin-top: 50px;}
+        .testimonial { margin: 30px auto; max-width: 800px; /* Center testimonials */ }
+        .testimonial blockquote { 
+            font-style: italic; 
+            font-size: 1.05rem;
+            color: var(--text-color); 
+            border-left: 5px solid var(--accent-color); 
+            padding: 20px 30px; 
+            margin: 10px 0 10px 0; 
+            background-color: var(--light-gray);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            position: relative;
+        }
+         /* Quotation mark */
+        .testimonial blockquote::before {
+            content: '\f10d'; /* Font Awesome quote-left */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        .testimonial cite { 
+            display: block; 
+            text-align: right; 
+            font-weight: 600; 
+            color: var(--primary-color); 
+            font-size: 0.95em;
+            margin-top: 10px;
+            font-style: normal;
+        }
+         .testimonial cite span { display: block; font-weight: 400; color: var(--dark-gray); font-size: 0.9em;}
+
+        /* --- Careers Section --- */
+        .job-opening { 
+            border: 1px solid var(--medium-gray); 
+            padding: 25px; 
+            margin-bottom: 25px; 
+            border-radius: var(--border-radius); 
+            background-color: var(--white);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            transition: box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+            display: flex; /* Use flex for layout */
+            flex-wrap: wrap;
+            align-items: center; /* Vertically align items */
+            gap: 20px;
+        }
+         .job-opening:hover {
+             box-shadow: var(--card-hover-shadow);
+             border-color: var(--secondary-color);
+         }
+         .job-info { flex-grow: 1; /* Take available space */ }
+        .job-opening h3 { margin-top: 0; margin-bottom: 0.5rem; }
+        .job-opening strong { color: var(--primary-color); }
+        .job-opening p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .job-opening ul { padding-left: 20px; margin-top: 10px; margin-bottom: 10px;}
+        .job-opening .cta-button { 
+            padding: 10px 20px; 
+            font-size: 0.9em; 
+            margin-left: auto; /* Push button right */
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        /* --- Resources Section --- */
+        .resource-list { list-style: none; padding-left: 0;}
+        .resource-list li { 
+             background-color: var(--white);
+             padding: 20px 25px;
+             margin-bottom: 15px;
+             border-radius: var(--border-radius);
+             border: 1px solid var(--medium-gray);
+             transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+             display: flex; /* Align icon and text */
+             align-items: center;
+        }
+         .resource-list li:hover {
+             border-color: var(--primary-color);
+             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+         }
+         .resource-list li i {
+             font-size: 1.5rem;
+             color: var(--accent-color);
+             margin-right: 15px;
+         }
+        .resource-list li a { 
+            text-decoration: none; 
+            color: var(--primary-color); 
+            font-weight: 500;
+            margin-right: 15px; /* Space between Vi/En links */
+        }
+        .resource-list li a:hover { color: var(--accent-color); text-decoration: underline; }
+        
+
+        /* --- Contact Section --- */
+        .contact-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px; /* Increased gap */
+        }
+        .contact-form { flex: 1.2; min-width: 320px; }
+        .contact-details { flex: 1; min-width: 300px; }
+        .contact-form h3, .contact-details h3 { margin-top: 0; }
+        
+        .form-group { margin-bottom: 20px; } /* Group label and input */
+        .contact-form label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 500; /* Medium weight labels */
+            color: var(--heading-color);
+            font-size: 0.95rem;
+        }
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form input[type="tel"],
+        .contact-form textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--medium-gray); 
+            border-radius: var(--border-radius); 
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            background-color: var(--white);
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.15); /* Focus shadow */
+        }
+        .contact-form textarea { resize: vertical; min-height: 120px;}
+        .contact-form button { width: 100%; padding: 15px; font-size: 1.1rem;}
+        #form-message { margin-top: 15px; font-weight: 500; text-align: center;}
+        #form-message.success { color: var(--success-color); }
+        #form-message.error { color: var(--error-color); }
+        
+        .contact-details p { margin-bottom: 18px; display: flex; align-items: center;}
+        .contact-details i {
+             font-size: 1.2rem;
+             color: var(--primary-color);
+             margin-right: 15px;
+             width: 25px; /* Fixed width for alignment */
+             text-align: center;
+        }
+        .contact-details strong { color: var(--heading-color); margin-right: 5px;}
+        .contact-details a { color: var(--accent-color); }
+        .contact-details a:hover { color: var(--primary-color); }
+        .map-container { 
+            width: 100%; 
+            height: 350px; /* Taller map */
+            background-color: var(--light-gray); 
+            margin-top: 25px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--dark-gray); 
+            border-radius: var(--border-radius); 
+            font-style: italic;
+            border: 1px solid var(--medium-gray);
+            overflow: hidden; /* Ensure map embed fits */
+        }
+        .map-container iframe { border: 0; width: 100%; height: 100%;} /* Style for actual iframe */
+
+        /* --- Footer --- */
+        footer { 
+            background-color: var(--heading-color); 
+            color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */ 
+            text-align: center; 
+            padding: 30px 20px; 
+            margin-top: 50px;
+        }
+        footer p { margin-bottom: 0; font-size: 0.9rem;}
+        footer a { color: var(--white); font-weight: 500;}
+        footer a:hover { color: var(--secondary-color); }
+
+        /* --- Responsive Design Adjustments --- */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.6rem; }
+            h2 { font-size: 2.1rem; }
+            .pricing-tier { /* Already handled by grid auto-fit */ }
+            .container { max-width: 960px; }
+            #about-us .image-content { grid-template-columns: 1fr; } /* Stack images */
+            #about-us .image-content img { height: 200px; }
+        }
+
+        @media (max-width: 768px) {
+            html { font-size: 15px; } /* Slightly smaller base font */
+            h1 { font-size: 2.3rem; }
+            h2 { font-size: 1.9rem; margin-bottom: 40px;}
+            h2::after { width: 60px; height: 3px; margin-top: 12px;}
+            header { top: 40px; /* Adjust if lang switcher height changes */ }
+            nav { padding: 0 10px;}
+            nav ul li { display: block; margin: 10px 0; text-align: center;} 
+            #home { padding: 80px 15px 60px 15px; }
+            #home h1 { font-size: 2.5rem; }
+            #home p { font-size: 1rem; }
+            .card-grid { grid-template-columns: 1fr; } 
+            .pricing-table { grid-template-columns: 1fr; max-width: 450px; margin-left: auto; margin-right: auto;}
+            .pricing-tier.highlight { transform: scale(1); } /* Disable scale on mobile maybe */
+            .pricing-tier.highlight:hover { transform: translateY(-5px); }
+             .contact-flex { flex-direction: column; gap: 40px;}
+             .job-opening { flex-direction: column; align-items: flex-start; }
+             .job-opening .cta-button { margin-left: 0; margin-top: 15px; width: 100%; }
+             .container { padding-left: 10px; padding-right: 10px; }
+        }
+         @media (max-width: 480px) {
+             h1 { font-size: 2rem; }
+             h2 { font-size: 1.7rem; }
+             body { line-height: 1.6; }
+             section { padding: 50px 15px; }
+             .cta-button { padding: 12px 25px; font-size: 1rem; }
+             .lang-switch { padding: 5px 10px;}
+             header { top: 35px; /* Adjust again */ }
+             nav ul li a { padding: 6px 10px; font-size: 0.9rem;}
+             #home { padding: 60px 15px 40px 15px;}
+             #home h1 { font-size: 2.2rem;}
+             #home p { font-size: 0.95rem;}
+             #home .icons-showcase { gap: 20px; }
+             #home .icons-showcase i { font-size: 2rem; }
+             #home .icons-showcase span { font-size: 0.8em; }
+             .service-card, .blog-card, .pricing-tier, .case-study-item, .job-opening, .resource-list li, .contact-form, .contact-details { padding: 20px;}
+             .testimonial blockquote { padding: 15px 20px;}
+             .client-logos { gap: 20px;}
+             .client-logos img { max-width: 100px; }
+         }
+    </style>
+</head>
+<body>
+
+    <div class="lang-switch">
+        <button id="lang-vi-btn" onclick="changeLanguage('vi')"><i class="fas fa-language" lang="vi"></i><span lang="vi">Tiếng Việt</span></button>
+        <button id="lang-en-btn" onclick="changeLanguage('en')"><i class="fas fa-language" lang="en"></i><span lang="en">English</span></button> 
+    </div>
+
+    <header>
+        <nav class="container">
+             <ul>
+                 <li><a href="#home" class="nav-link"><span lang="vi">Trang chủ</span><span lang="en">Home</span></a></li>
+                 <li><a href="#about-us" class="nav-link"><span lang="vi">Giới thiệu</span><span lang="en">About Us</span></a></li>
+                 <li><a href="#service-catalogue" class="nav-link"><span lang="vi">Dịch vụ</span><span lang="en">Services</span></a></li>
+                 <li><a href="#pricing" class="nav-link"><span lang="vi">Báo giá</span><span lang="en">Pricing</span></a></li>
+                 <li><a href="#case-studies" class="nav-link"><span lang="vi">Case Study</span><span lang="en">Case Studies</span></a></li>
+                 <li><a href="#blog" class="nav-link"><span lang="vi">Tin tức</span><span lang="en">Blog</span></a></li>
+                 <li><a href="#careers" class="nav-link"><span lang="vi">Tuyển dụng</span><span lang="en">Careers</span></a></li>
+                 <li><a href="#resources" class="nav-link"><span lang="vi">Tài nguyên</span><span lang="en">Resources</span></a></li>
+                 <li><a href="#contact" class="nav-link"><span lang="vi">Liên hệ</span><span lang="en">Contact</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <section id="home"> 
+            <div class="container">
+                 <h1 lang="vi">Trung Tâm Điều Hành An Ninh Mạng (SOC) Thế Hệ Mới</h1>
+                 <h1 lang="en">Next-Generation Security Operations Center (SOC)</h1>
+                 
+                 <p lang="vi">Bảo vệ doanh nghiệp toàn diện 24/7 trước các mối đe dọa mạng ngày càng tinh vi. Giải pháp SOC của chúng tôi kết hợp công nghệ AI tiên tiến và đội ngũ chuyên gia hàng đầu để mang lại khả năng phát hiện, phản ứng và phòng ngừa vượt trội.</p>
+                 <p lang="en">Comprehensive 24/7 protection for your business against increasingly sophisticated cyber threats. Our SOC solution combines advanced AI technology and leading experts to deliver superior detection, response, and prevention capabilities.</p>
+    
+                <div>
+                    <a href="#service-catalogue" class="cta-button">
+                        <i class="fas fa-cogs" lang="vi"></i><span lang="vi">Khám Phá Dịch Vụ</span>
+                        <i class="fas fa-cogs" lang="en"></i><span lang="en">Explore Services</span>
+                    </a>
+                    <a href="#contact" class="cta-button secondary">
+                         <i class="fas fa-calendar-check" lang="vi"></i><span lang="vi">Yêu Cầu Demo</span>
+                         <i class="fas fa-calendar-check" lang="en"></i><span lang="en">Request a Demo</span>
+                    </a>
+                </div>
+                
+                 <div class="icons-showcase">
+                    <div>
+                        <i class="fas fa-shield-alt"></i>
+                        <span lang="vi">Bảo mật 24/7</span><span lang="en">24/7 Security</span>
+                    </div>
+                     <div>
+                        <i class="fas fa-brain"></i>
+                        <span lang="vi">Phân tích AI</span><span lang="en">AI Analytics</span>
+                    </div>
+                     <div>
+                         <i class="fas fa-bullseye"></i>
+                        <span lang="vi">Phát hiện sớm</span><span lang="en">Early Detection</span>
+                    </div>
+                    <div>
+                         <i class="fas fa-bolt"></i>
+                        <span lang="vi">Phản ứng nhanh</span><span lang="en">Rapid Response</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-us" class="container">
+             <h2><span lang="vi">Đối Tác An Ninh Mạng Tin Cậy Của Bạn</span><span lang="en">Your Trusted Cybersecurity Partner</span></h2>
+            <div class="about-content">
+                <div class="text-content">
+                    <h3 lang="vi">Về Chúng Tôi</h3>
+                    <h3 lang="en">About Our Company</h3>
+                    <p lang="vi">Với nhiều năm kinh nghiệm và đội ngũ chuyên gia an ninh mạng hàng đầu được chứng nhận quốc tế (CISSP, CEH, OSCP...), chúng tôi tự hào là nhà cung cấp dịch vụ SOC uy tín tại Việt Nam. Chúng tôi không chỉ cung cấp công nghệ, mà còn mang đến sự an tâm thực sự cho khách hàng.</p>
+                    <p lang="en">With years of experience and a team of top internationally certified cybersecurity experts (CISSP, CEH, OSCP...), we are proud to be a reputable SOC service provider in Vietnam. We offer not just technology, but genuine peace of mind for our clients.</p>
+                    
+                    <h3 lang="vi">Sứ Mệnh & Tầm Nhìn</h3>
+                    <h3 lang="en">Mission & Vision</h3>
+                    <p lang="vi"><strong>Sứ mệnh:</strong> Nâng cao khả năng phòng thủ an ninh mạng cho các tổ chức, bảo vệ tài sản số và đảm bảo hoạt động kinh doanh liên tục. <br><strong>Tầm nhìn:</strong> Trở thành trung tâm SOC hàng đầu khu vực, tiên phong ứng dụng công nghệ và đổi mới trong lĩnh vực an ninh mạng.</p>
+                     <p lang="en"><strong>Mission:</strong> To enhance the cybersecurity posture of organizations, protect digital assets, and ensure business continuity. <br><strong>Vision:</strong> To become the leading SOC center in the region, pioneering technology adoption and innovation in cybersecurity.</p>
+                 </div>
+                 <div class="image-content">
+                     <img src="images/team/expert-team" alt="Đội ngũ chuyên gia an ninh mạng">
+                      <img src="https://via.placeholder.com/400x250/00acc1/ffffff?text=State-of-the-Art+SOC+Facility" alt="Trung tâm SOC hiện đại">
+                      <img src="https://via.placeholder.com/400x250/78909c/ffffff?text=Collaborative+Environment" alt="Môi trường làm việc hợp tác"> 
+                      <img src="https://via.placeholder.com/400x250/f57c00/ffffff?text=Continuous+Monitoring+Dashboard" alt="Bảng điều khiển giám sát liên tục"> 
+                 </div>
+            </div>
+        </section>
+
+        <section id="service-catalogue" class="container">
+             <h2><span lang="vi">Giải Pháp SOC Toàn Diện</span><span lang="en">Comprehensive SOC Solutions</span></h2>
+            <div class="card-grid">
+                
+                <div class="service-card">
+                     <div class="card-icon"><i class="fas fa-server"></i></div>
+                     <h3><span lang="vi">Giám sát An ninh 24/7</span><span lang="en">24/7 Security Monitoring</span></h3>
+                     <p lang="vi">Liên tục theo dõi hệ thống, mạng và endpoint để phát hiện hoạt động đáng ngờ và các mối đe dọa theo thời gian thực.</p>
+                     <p lang="en">Continuously monitor systems, networks, and endpoints to detect suspicious activities and threats in real-time.</p>
+                    <a href="#service-detail-monitoring"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+
+                <div class="service-card">
+                    <div class="card-icon"><i class="fas fa-fighter-jet"></i></div> <h3><span lang="vi">Phản ứng Sự cố (IR)</span><span lang="en">Incident Response (IR)</span></h3>
+                     <p lang="vi">Hành động nhanh chóng để điều tra, ngăn chặn, khắc phục và phục hồi từ các sự cố an ninh, giảm thiểu tác động.</p>
+                     <p lang="en">Act swiftly to investigate, contain, eradicate, and recover from security incidents, minimizing impact.</p>
+                    <a href="#service-detail-incident-response"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+
+                <div class="service-card">
+                     <div class="card-icon"><i class="fas fa-user-secret"></i></div> <h3><span lang="vi">Săn tìm Mối đe dọa</span><span lang="en">Threat Hunting</span></h3>
+                     <p lang="vi">Chủ động tìm kiếm các mối đe dọa tiềm ẩn và các tác nhân độc hại chưa bị phát hiện trong môi trường của bạn.</p>
+                     <p lang="en">Proactively search for hidden threats and undetected malicious actors within your environment.</p>
+                    <a href="#service-detail-log-hunting"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+
+                <div class="service-card">
+                     <div class="card-icon"><i class="fas fa-balance-scale"></i></div> <h3><span lang="vi">Tư vấn Tuân thủ</span><span lang="en">Compliance Consulting</span></h3>
+                     <p lang="vi">Đảm bảo hệ thống đáp ứng các quy định và tiêu chuẩn ngành như ISO 27001, GDPR, PCI DSS, HIPAA...</p>
+                     <p lang="en">Ensure your systems meet industry regulations and standards like ISO 27001, GDPR, PCI DSS, HIPAA...</p>
+                    <a href="#service-detail-compliance"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+
+                <div class="service-card">
+                     <div class="card-icon"><i class="fas fa-project-diagram"></i></div> <h3><span lang="vi">Triển khai SIEM/SOAR</span><span lang="en">SIEM/SOAR Implementation</span></h3>
+                     <p lang="vi">Thiết kế, triển khai và tối ưu hóa nền tảng SIEM và SOAR để tự động hóa và tăng cường hiệu quả an ninh.</p>
+                     <p lang="en">Design, implement, and optimize SIEM and SOAR platforms to automate and enhance security efficiency.</p>
+                    <a href="#service-detail-siem-soar"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+
+                <div class="service-card">
+                     <div class="card-icon"><i class="fas fa-user-shield"></i></div> <h3><span lang="vi">Red Team & Blue Team</span><span lang="en">Red Team & Blue Team</span></h3>
+                     <p lang="vi">Thực hiện các cuộc tấn công mô phỏng (Red Team) và đánh giá khả năng phòng thủ (Blue Team) để kiểm tra và cải thiện hệ thống.</p>
+                     <p lang="en">Conduct simulated attacks (Red Team) and assess defensive capabilities (Blue Team) to test and improve systems.</p>
+                    <a href="#service-detail-red-blue"><span lang="vi">Tìm hiểu thêm</span><span lang="en">Learn More</span> <i class="fas fa-arrow-right"></i></a> 
+                </div>
+                
+            </div>
+        </section>
+
+        <section id="service-detail-monitoring" class="container">
+            <h2>
+                <i class="fas fa-server" lang="vi"></i><span lang="vi">Chi tiết: Giám sát An ninh 24/7</span>
+                <i class="fas fa-server" lang="en"></i><span lang="en">Detail: 24/7 Security Monitoring</span>
+            </h2>
+            <div class="service-detail-content">
+                <div class="service-detail-text">
+                    <p lang="vi">Dịch vụ giám sát 24/7 là nền tảng cốt lõi của SOC. Chúng tôi thu thập và phân tích log từ nhiều nguồn (tường lửa, máy chủ, endpoint, ứng dụng...), sử dụng các quy tắc tương quan tiên tiến và mô hình máy học để xác định các mối đe dọa tiềm ẩn, cảnh báo sai và các cuộc tấn công đang diễn ra.</p>
+                     <p lang="en">Our 24/7 monitoring service is the core foundation of the SOC. We collect and analyze logs from multiple sources (firewalls, servers, endpoints, applications...), utilizing advanced correlation rules and machine learning models to identify potential threats, false positives, and ongoing attacks.</p>
+                    
+                    <h4 lang="vi">Quy trình Giám sát:</h4>
+                    <h4 lang="en">Monitoring Process:</h4>
+                    <ul>
+                        <li lang="vi"><strong>Thu thập Log:</strong> Tập trung log từ các nguồn đa dạng vào hệ thống SIEM.</li><li lang="en"><strong>Log Collection:</strong> Centralize logs from diverse sources into the SIEM system.</li>
+                        <li lang="vi"><strong>Phân tích & Tương quan:</strong> Áp dụng các quy tắc và AI để tìm kiếm mẫu tấn công.</li><li lang="en"><strong>Analysis & Correlation:</strong> Apply rules and AI to search for attack patterns.</li>
+                        <li lang="vi"><strong>Tạo Cảnh báo:</strong> Hệ thống tự động tạo cảnh báo khi phát hiện dấu hiệu đáng ngờ.</li><li lang="en"><strong>Alert Generation:</strong> System automatically generates alerts upon detecting suspicious signs.</li>
+                        <li lang="vi"><strong>Xác minh & Phân loại:</strong> Chuyên gia L1/L2 xác minh cảnh báo, loại bỏ false positive.</li><li lang="en"><strong>Verification & Triage:</strong> L1/L2 analysts verify alerts, eliminating false positives.</li>
+                         <li lang="vi"><strong>Báo cáo & Leo thang:</strong> Cung cấp báo cáo chi tiết và leo thang sự cố khi cần thiết.</li><li lang="en"><strong>Reporting & Escalation:</strong> Provide detailed reports and escalate incidents as needed.</li>
+                    </ul>
+                    
+                     <h4 lang="vi">Công nghệ sử dụng:</h4>
+                     <h4 lang="en">Technologies Used:</h4>
+                     <p lang="vi">Chúng tôi sử dụng các nền tảng SIEM hàng đầu như Splunk, IBM QRadar, Microsoft Sentinel và các công cụ EDR/XDR tiên tiến.</p>
+                     <p lang="en">We utilize leading SIEM platforms such as Splunk, IBM QRadar, Microsoft Sentinel, and advanced EDR/XDR tools.</p>
+                </div>
+                <div class="service-detail-visual">
+                     <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Diagram:+24/7+Monitoring+Workflow" alt="Sơ đồ quy trình giám sát 24/7"> 
+                     </div>
+            </div>
+        </section>
+        
+        <section id="service-detail-incident-response" class="container">
+              <h2><i class="fas fa-fighter-jet" lang="vi"></i><span lang="vi">Chi tiết: Phản ứng Sự cố (IR)</span><i class="fas fa-fighter-jet" lang="en"></i><span lang="en">Detail: Incident Response (IR)</span></h2>
+              <div class="service-detail-content">
+                 <div class="service-detail-text">
+                    <p lang="vi">Khi sự cố xảy ra, thời gian là vàng. Dịch vụ IR của chúng tôi đảm bảo phản ứng nhanh chóng, có cấu trúc theo tiêu chuẩn NIST (Preparation, Detection & Analysis, Containment, Eradication & Recovery, Post-Incident Activity) để giảm thiểu thiệt hại và khôi phục hoạt động nhanh nhất.</p>
+                    <p lang="en">When an incident occurs, time is critical. Our IR service ensures a rapid, structured response following NIST standards (Preparation, Detection & Analysis, Containment, Eradication & Recovery, Post-Incident Activity) to minimize damage and restore operations quickly.</p>
+                    <h4 lang="vi">Các bước chính:</h4><h4 lang="en">Key Steps:</h4>
+                    <ul><li lang="vi">Phân tích và xác định phạm vi</li><li lang="en">Analysis and scope determination</li><li lang="vi">Ngăn chặn lây lan</li><li lang="en">Containment of spread</li><li lang="vi">Loại bỏ mã độc/tác nhân</li><li lang="en">Eradication of malware/actor</li><li lang="vi">Khôi phục hệ thống</li><li lang="en">System recovery</li><li lang="vi">Phân tích nguyên nhân gốc và bài học kinh nghiệm</li><li lang="en">Root cause analysis and lessons learned</li></ul>
+                </div>
+                <div class="service-detail-visual">
+                     <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Diagram:+Incident+Response+Lifecycle+(NIST)" alt="Vòng đời Phản ứng Sự cố (NIST)"> 
+                 </div>
+             </div>
+        </section>
+         <section id="service-detail-log-hunting" class="container"> 
+              <h2><i class="fas fa-user-secret" lang="vi"></i><span lang="vi">Chi tiết: Săn tìm Mối đe dọa</span><i class="fas fa-user-secret" lang="en"></i><span lang="en">Detail: Threat Hunting</span></h2>
+               <div class="service-detail-content">
+                 <div class="service-detail-text">
+                     <p lang="vi">Không chỉ đợi cảnh báo, đội ngũ Threat Hunter của chúng tôi chủ động "đi săn" dựa trên các giả thuyết, thông tin tình báo mối đe dọa (Threat Intelligence), và phân tích hành vi bất thường (UEBA) để tìm ra những kẻ tấn công tinh vi đang ẩn náu trong hệ thống.</p>
+                     <p lang="en">Beyond waiting for alerts, our Threat Hunters proactively "hunt" based on hypotheses, threat intelligence feeds, and User and Entity Behavior Analytics (UEBA) to find sophisticated attackers hiding within the system.</p>
+                    <h4 lang="vi">Phương pháp tiếp cận:</h4><h4 lang="en">Approach:</h4>
+                     <ul><li lang="vi">Dựa trên giả thuyết (Hypothesis-driven)</li><li lang="en">Hypothesis-driven</li><li lang="vi">Dựa trên IoC (Indicators of Compromise)</li><li lang="en">IOC-based (Indicators of Compromise)</li><li lang="vi">Dựa trên phân tích dữ liệu lớn & AI</li><li lang="en">Big data analytics & AI-driven</li></ul>
+                </div>
+                <div class="service-detail-visual">
+                     <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Image:+Analyst+Reviewing+Complex+Data" alt="Chuyên gia phân tích dữ liệu phức tạp"> 
+                 </div>
+             </div>
+        </section>
+        <section id="service-detail-compliance" class="container"> 
+             <h2><i class="fas fa-balance-scale" lang="vi"></i><span lang="vi">Chi tiết: Tư vấn Tuân thủ</span><i class="fas fa-balance-scale" lang="en"></i><span lang="en">Detail: Compliance Consulting</span></h2>
+             <div class="service-detail-content">
+                <div class="service-detail-text">
+                    <p lang="vi">Việc tuân thủ các quy định an ninh là bắt buộc và phức tạp. Chúng tôi giúp bạn đánh giá hiện trạng, xác định khoảng cách, xây dựng lộ trình và triển khai các biện pháp kiểm soát cần thiết để đáp ứng các yêu cầu của ISO 27001, PCI DSS, GDPR, HIPAA và các quy định pháp luật Việt Nam.</p>
+                    <p lang="en">Complying with security regulations is mandatory and complex. We help you assess your current state, identify gaps, build a roadmap, and implement necessary controls to meet the requirements of ISO 27001, PCI DSS, GDPR, HIPAA, and relevant Vietnamese laws.</p>
+                    <h4 lang="vi">Dịch vụ bao gồm:</h4><h4 lang="en">Services Include:</h4>
+                    <ul><li lang="vi">Đánh giá Gap Assessment</li><li lang="en">Gap Assessment</li><li lang="vi">Xây dựng chính sách & quy trình</li><li lang="en">Policy & Procedure Development</li><li lang="vi">Hỗ trợ triển khai kiểm soát</li><li lang="en">Control Implementation Support</li><li lang="vi">Đào tạo nhận thức</li><li lang="en">Awareness Training</li><li lang="vi">Hỗ trợ đánh giá chứng nhận</li><li lang="en">Certification Audit Support</li></ul>
+                </div>
+                <div class="service-detail-visual">
+                     <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Image:+Compliance+Checklist+or+Framework" alt="Checklist hoặc Framework tuân thủ"> 
+                </div>
+            </div>
+        </section>
+          <section id="service-detail-siem-soar" class="container"> 
+             <h2><i class="fas fa-project-diagram" lang="vi"></i><span lang="vi">Chi tiết: Triển khai SIEM/SOAR</span><i class="fas fa-project-diagram" lang="en"></i><span lang="en">Detail: SIEM/SOAR Implementation</span></h2>
+              <div class="service-detail-content">
+                 <div class="service-detail-text">
+                     <p lang="vi">Tận dụng sức mạnh của Quản lý Thông tin và Sự kiện An ninh (SIEM) và Điều phối, Tự động hóa và Phản ứng An ninh (SOAR). Chúng tôi cung cấp dịch vụ trọn gói từ tư vấn chọn giải pháp, thiết kế kiến trúc, triển khai, tích hợp, tinh chỉnh quy tắc và xây dựng playbook tự động hóa.</p>
+                     <p lang="en">Leverage the power of Security Information and Event Management (SIEM) and Security Orchestration, Automation, and Response (SOAR). We offer end-to-end services from solution consulting, architecture design, implementation, integration, rule tuning, and automation playbook development.</p>
+                    <h4 lang="vi">Lợi ích chính:</h4><h4 lang="en">Key Benefits:</h4>
+                     <ul><li lang="vi">Tầm nhìn tập trung về sự kiện an ninh</li><li lang="en">Centralized visibility of security events</li><li lang="vi">Phát hiện mối đe dọa nâng cao</li><li lang="en">Enhanced threat detection</li><li lang="vi">Tự động hóa các tác vụ lặp lại</li><li lang="en">Automation of repetitive tasks</li><li lang="vi">Giảm thời gian phản ứng (MTTR)</li><li lang="en">Reduced Mean Time to Respond (MTTR)</li><li lang="vi">Tăng hiệu quả hoạt động SOC</li><li lang="en">Increased SOC operational efficiency</li></ul>
+                </div>
+                <div class="service-detail-visual">
+                     <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Diagram:+SIEM/SOAR+Architecture+Example" alt="Kiến trúc SIEM/SOAR mẫu"> 
+                 </div>
+             </div>
+         </section>
+         <section id="service-detail-red-blue" class="container"> 
+             <h2><i class="fas fa-user-shield" lang="vi"></i><span lang="vi">Chi tiết: Red Team & Blue Team</span><i class="fas fa-user-shield" lang="en"></i><span lang="en">Detail: Red Team & Blue Team</span></h2>
+              <div class="service-detail-content">
+                 <div class="service-detail-text">
+                     <p lang="vi">Kiểm tra thực tế khả năng phòng thủ của bạn. <strong>Red Team</strong> mô phỏng các cuộc tấn công thực tế để tìm ra điểm yếu. <strong>Blue Team</strong> tập trung vào việc phát hiện và phản ứng lại các hoạt động của Red Team, từ đó cải thiện quy trình và công cụ phòng thủ. Chúng tôi cũng cung cấp dịch vụ <strong>Purple Team</strong> kết hợp cả hai để tối ưu hóa hiệu quả.</p>
+                     <p lang="en">Put your defenses to the real test. The <strong>Red Team</strong> simulates realistic attacks to find weaknesses. The <strong>Blue Team</strong> focuses on detecting and responding to Red Team activities, thereby improving defensive processes and tools. We also offer <strong>Purple Team</strong> services combining both for optimized effectiveness.</p>
+                    <h4 lang="vi">Mục tiêu:</h4><h4 lang="en">Objectives:</h4>
+                     <ul><li lang="vi">Xác định lỗ hổng và điểm yếu</li><li lang="en">Identify vulnerabilities and weaknesses</li><li lang="vi">Đánh giá hiệu quả của hệ thống phòng thủ</li><li lang="en">Assess the effectiveness of defense systems</li><li lang="vi">Kiểm tra quy trình phát hiện và phản ứng</li><li lang="en">Test detection and response procedures</li><li lang="vi">Nâng cao kỹ năng cho đội ngũ an ninh nội bộ</li><li lang="en">Enhance skills of the internal security team</li></ul>
+                </div>
+                <div class="service-detail-visual">
+                      <img src="https://via.placeholder.com/500x350/e0e0e0/78909c?text=Image:+Red+vs+Blue+Team+Concept" alt="Khái niệm Red Team vs Blue Team"> 
+                 </div>
+             </div>
+         </section>
+
+        <section id="pricing" class="container">
+            <h2><span lang="vi">Các Gói Dịch Vụ Linh Hoạt</span><span lang="en">Flexible Service Packages</span></h2>
+            <p class="text-muted" style="text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+                <span lang="vi">Chúng tôi cung cấp các gói dịch vụ SOC được thiết kế để phù hợp với mọi quy mô và nhu cầu ngân sách, đảm bảo bạn nhận được giá trị tốt nhất.</span>
+                <span lang="en">We offer SOC service packages designed to fit all sizes and budget needs, ensuring you receive the best value.</span>
+            </p>
+            
+            <div class="pricing-table">
+                 <div class="pricing-tier">
+                    <h3><i class="fas fa-shield-alt"></i><span lang="vi"> Essential</span><span lang="en"> Essential</span></h3>
+                     <p class="tier-description text-muted"><span lang="vi">Bảo vệ cơ bản cho doanh nghiệp nhỏ</span><span lang="en">Fundamental protection for small businesses</span></p>
+                    <p class="price"><span lang="vi">Liên hệ</span><span lang="en">Contact Us</span></p>
+                    <ul>
+                        <li><i class="fas fa-check"></i><span lang="vi">Giám sát 24/7 (Giờ hành chính ưu tiên)</span><span lang="en">24/7 Monitoring (Business Hours Priority)</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Thu thập & Phân tích Log cơ bản</span><span lang="en">Basic Log Collection & Analysis</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Cảnh báo An ninh</span><span lang="en">Security Alerting</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Báo cáo hàng tháng</span><span lang="en">Monthly Reporting</span></li>
+                         <li><i class="fas fa-times" style="color: var(--error-color);"></i><span lang="vi">Hỗ trợ Phản ứng Sự cố (Theo yêu cầu)</span><span lang="en">Incident Response Support (On-demand)</span></li>
+                         <li><i class="fas fa-times" style="color: var(--error-color);"></i><span lang="vi">Threat Hunting</span><span lang="en">Threat Hunting</span></li>
+                    </ul>
+                    <a href="#contact" class="cta-button secondary">
+                        <span lang="vi">Yêu cầu báo giá</span><span lang="en">Request Quote</span>
+                    </a>
+                </div>
+
+                 <div class="pricing-tier highlight" data-popular-text-vi="Phổ biến" data-popular-text-en="Popular"> 
+                    <h3><i class="fas fa-star"></i><span lang="vi"> Professional</span><span lang="en"> Professional</span></h3>
+                      <p class="tier-description text-muted"><span lang="vi">Giải pháp cân bằng cho doanh nghiệp vừa</span><span lang="en">Balanced solution for medium businesses</span></p>
+                    <p class="price"><span lang="vi">Liên hệ</span><span lang="en">Contact Us</span></p>
+                     <ul>
+                        <li><i class="fas fa-check"></i><span lang="vi">Giám sát Ưu tiên 24/7</span><span lang="en">Priority 24/7 Monitoring</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Phân tích Log Nâng cao & Tương quan</span><span lang="en">Advanced Log Analysis & Correlation</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Cảnh báo & Phân loại Sự cố</span><span lang="en">Alerting & Incident Triage</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Hỗ trợ Phản ứng Sự cố (SLA)</span><span lang="en">Incident Response Support (SLA-backed)</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Threat Hunting Định kỳ</span><span lang="en">Periodic Threat Hunting</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Báo cáo hàng tuần & Quý</span><span lang="en">Weekly & Quarterly Reporting</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Tích hợp Threat Intelligence cơ bản</span><span lang="en">Basic Threat Intelligence Integration</span></li>
+                    </ul>
+                     <a href="#contact" class="cta-button">
+                         <span lang="vi">Yêu cầu báo giá</span><span lang="en">Request Quote</span>
+                    </a>
+                </div>
+
+                 <div class="pricing-tier">
+                    <h3><i class="fas fa-crown"></i><span lang="vi"> Enterprise</span><span lang="en"> Enterprise</span></h3>
+                      <p class="tier-description text-muted"><span lang="vi">Bảo vệ toàn diện cho doanh nghiệp lớn</span><span lang="en">Comprehensive security for large enterprises</span></p>
+                     <p class="price"><span lang="vi">Liên hệ</span><span lang="en">Contact Us</span></p>
+                     <ul>
+                        <li><i class="fas fa-check"></i><span lang="vi">Giám sát Chuyên sâu 24/7</span><span lang="en">Dedicated 24/7 Monitoring</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Phân tích Log, UEBA & AI</span><span lang="en">Log Analysis, UEBA & AI</span></li>
+                         <li><i class="fas fa-check"></i><span lang="vi">Quản lý Sự cố Chủ động</span><span lang="en">Proactive Incident Management</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Phản ứng Sự cố Toàn diện (SLA Ưu tiên)</span><span lang="en">Full Incident Response (Priority SLA)</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Threat Hunting Liên tục & Nâng cao</span><span lang="en">Continuous & Advanced Threat Hunting</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Báo cáo Tùy chỉnh & Đánh giá Định kỳ</span><span lang="en">Custom Reporting & Regular Reviews</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Tích hợp Threat Intelligence Đầy đủ</span><span lang="en">Full Threat Intelligence Integration</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Tích hợp & Quản lý SOAR</span><span lang="en">SOAR Integration & Management</span></li>
+                        <li><i class="fas fa-check"></i><span lang="vi">Quản lý Chuyên trách (Dedicated Manager)</span><span lang="en">Dedicated Account Manager</span></li>
+                    </ul>
+                     <a href="#contact" class="cta-button secondary">
+                          <span lang="vi">Yêu cầu báo giá</span><span lang="en">Request Quote</span>
+                    </a>
+                </div>
+            </div>
+             <p style="text-align: center; margin-top: 30px;" class="text-muted">
+                <span lang="vi">*Các gói dịch vụ có thể được tùy chỉnh theo yêu cầu cụ thể. Vui lòng liên hệ để được tư vấn chi tiết.</span>
+                <span lang="en">*Packages can be customized to specific requirements. Please contact us for detailed consultation.</span>
+            </p>
+        </section>
+
+        <section id="case-studies" class="container">
+             <h2><span lang="vi">Câu Chuyện Thành Công Của Khách Hàng</span><span lang="en">Client Success Stories</span></h2>
+
+            <div class="case-study-item">
+                <h4><i class="fas fa-university"></i> <span lang="vi">Ngăn chặn Thất thoát Dữ liệu tại Ngân hàng FinBank</span><span lang="en">Preventing Data Loss at FinBank</span></h4>
+                 <p lang="vi"><strong>Thách thức:</strong> FinBank đối mặt với nguy cơ tấn công APT nhằm đánh cắp dữ liệu khách hàng nhạy cảm.<br><strong>Giải pháp:</strong> Dịch vụ Giám sát 24/7 và Threat Hunting của chúng tôi đã phát hiện hành vi bất thường và các kỹ thuật leo thang đặc quyền tinh vi.<br><strong>Kết quả:</strong> Cuộc tấn công bị chặn đứng kịp thời, ngăn chặn thành công việc dữ liệu bị rò rỉ, đảm bảo uy tín và tuân thủ cho FinBank.</p>
+                 <p lang="en"><strong>Challenge:</strong> FinBank faced the risk of an APT attack aimed at stealing sensitive customer data.<br><strong>Solution:</strong> Our 24/7 Monitoring and Threat Hunting services detected anomalous behavior and sophisticated privilege escalation techniques.<br><strong>Result:</strong> The attack was stopped in time, successfully preventing data leakage and ensuring FinBank's reputation and compliance.</p>
+            </div>
+            
+            <div class="case-study-item">
+                <h4><i class="fas fa-industry"></i> <span lang="vi">Phục hồi Nhanh chóng sau Tấn công Ransomware cho Tập đoàn TechCorp</span><span lang="en">Rapid Recovery After Ransomware Attack for TechCorp Group</span></h4>
+                 <p lang="vi"><strong>Thách thức:</strong> Hệ thống sản xuất quan trọng của TechCorp bị mã hóa bởi ransomware, gây đình trệ hoạt động.<br><strong>Giải pháp:</strong> Đội IR của chúng tôi đã nhanh chóng vào cuộc, cô lập hệ thống bị ảnh hưởng, xác định chủng ransomware và hỗ trợ khôi phục dữ liệu từ bản sao lưu an toàn.<br><strong>Kết quả:</strong> Thời gian ngừng hoạt động được giảm thiểu đáng kể, TechCorp nhanh chóng trở lại sản xuất bình thường, đồng thời các lỗ hổng bị khai thác đã được vá lỗi.</p>
+                 <p lang="en"><strong>Challenge:</strong> TechCorp's critical production systems were encrypted by ransomware, causing operational halt.<br><strong>Solution:</strong> Our IR team quickly engaged, isolated affected systems, identified the ransomware strain, and assisted in restoring data from secure backups.<br><strong>Result:</strong> Downtime was significantly minimized, TechCorp quickly returned to normal production, and the exploited vulnerabilities were patched.</p>
+            </div>
+
+             <div class="client-logos-container">
+                <h3><span lang="vi">Được Tin cậy bởi</span><span lang="en">Trusted By</span></h3>
+                <div class="client-logos">
+                    <div lang="vi" style="width:100%; text-align:center; font-style:italic; margin-bottom: 10px;" class="text-muted">(Hiển thị logo cần có sự cho phép của khách hàng)</div>
+                    <div lang="en" style="width:100%; text-align:center; font-style:italic; margin-bottom: 10px;" class="text-muted">(Displaying logos requires client permission)</div>
+                     <img src="https://via.placeholder.com/130x55/cccccc/969696?text=FinBank+Logo" alt="FinBank Logo">
+                     <img src="https://via.placeholder.com/130x55/cccccc/969696?text=TechCorp+Logo" alt="TechCorp Logo">
+                     <img src="https://via.placeholder.com/130x55/cccccc/969696?text=Global+Retail+Logo" alt="Global Retail Logo">
+                     <img src="https://via.placeholder.com/130x55/cccccc/969696?text=Health+System+Logo" alt="Health System Logo">
+                     <img src="https://via.placeholder.com/130x55/cccccc/969696?text=Edu+Institute+Logo" alt="Edu Institute Logo">
+                </div>
+            </div>
+
+
+            <div class="testimonials-container">
+                 <h3><span lang="vi">Khách Hàng Nói Về Chúng Tôi</span><span lang="en">What Our Clients Say</span></h3>
+                <div class="testimonial">
+                    <blockquote lang="vi">"Đội ngũ SOC cực kỳ chuyên nghiệp và phản ứng nhanh nhạy. Nhờ họ, chúng tôi đã tránh được một sự cố bảo mật nghiêm trọng có thể gây thiệt hại lớn về tài chính và uy tín."</blockquote>
+                    <blockquote lang="en">"The SOC team is extremely professional and responsive. Thanks to them, we avoided a serious security incident that could have caused major financial and reputational damage."</blockquote>
+                    <cite lang="vi">Nguyễn Minh Tuấn<span lang="vi">Giám đốc An ninh Thông tin, Global Retail Corp</span></cite>
+                    <cite lang="en">Michael Chen<span lang="en">Chief Information Security Officer, Global Retail Corp</span></cite>
+                </div>
+                 <div class="testimonial">
+                      <blockquote lang="vi">"Dịch vụ giám sát 24/7 thực sự mang lại sự an tâm. Chúng tôi nhận được cảnh báo kịp thời và báo cáo rất chi tiết, dễ hiểu, giúp ban lãnh đạo nắm bắt tình hình an ninh."</blockquote>
+                     <blockquote lang="en">"The 24/7 monitoring service truly provides peace of mind. We receive timely alerts and the reports are very detailed and easy to understand, helping leadership grasp the security situation."</blockquote>
+                    <cite lang="vi">Trần Thị Lan Anh<span lang="vi">Trưởng phòng Vận hành IT, Edu Institute Vietnam</span></cite>
+                    <cite lang="en">Sarah Miller<span lang="en">Head of IT Operations, Edu Institute Vietnam</span></cite>
+                </div>
+            </div>
+        </section>
+
+        <section id="blog" class="container">
+             <h2><span lang="vi">Tin Tức & Kiến Thức An Ninh Mạng</span><span lang="en">Cybersecurity News & Insights</span></h2>
+             <div class="card-grid">
+
+                <article class="blog-card">
+                     <img src="https://via.placeholder.com/400x200/00acc1/ffffff?text=Blog+Image+1" alt="Blog Post Image 1" style="margin-bottom: 1rem;">
+                    <h3><span lang="vi">5 Xu Hướng Tấn Công Mạng Đáng Chú Ý Năm 2025</span><span lang="en">Top 5 Cyber Attack Trends to Watch in 2025</span></h3>
+                    <p class="meta">
+                        <i class="fas fa-calendar-alt"></i> <span lang="vi">20/04/2025</span><span lang="en">Apr 20, 2025</span> 
+                        <span style="margin: 0 5px;">|</span> <i class="fas fa-user"></i> <span lang="vi">Chuyên gia SOC</span><span lang="en">SOC Experts</span>
+                    </p>
+                    <p lang="vi">Tìm hiểu về các kỹ thuật tấn công mới nổi như AI-powered phishing, tấn công chuỗi cung ứng và cách doanh nghiệp có thể phòng ngừa...</p>
+                    <p lang="en">Learn about emerging attack techniques like AI-powered phishing, supply chain attacks, and how businesses can prepare...</p>
+                    <a href="#"><span lang="vi">Đọc thêm</span><span lang="en">Read More</span> <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+                <article class="blog-card">
+                     <img src="https://via.placeholder.com/400x200/f57c00/ffffff?text=Blog+Image+2" alt="Blog Post Image 2" style="margin-bottom: 1rem;">
+                     <h3><span lang="vi">Vai Trò Của Threat Intelligence Trong SOC Hiện Đại</span><span lang="en">The Role of Threat Intelligence in Modern SOC</span></h3>
+                      <p class="meta">
+                        <i class="fas fa-calendar-alt"></i> <span lang="vi">15/04/2025</span><span lang="en">Apr 15, 2025</span> 
+                         <span style="margin: 0 5px;">|</span> <i class="fas fa-user"></i> <span lang="vi">Nhóm Phân Tích</span><span lang="en">Analysis Team</span>
+                    </p>
+                    <p lang="vi">Khám phá cách thông tin tình báo mối đe dọa giúp SOC chủ động hơn trong việc phát hiện, ưu tiên và ứng phó với các mối nguy hiểm...</p>
+                    <p lang="en">Discover how threat intelligence helps SOCs be more proactive in detecting, prioritizing, and responding to threats...</p>
+                    <a href="#"><span lang="vi">Đọc thêm</span><span lang="en">Read More</span> <i class="fas fa-arrow-right"></i></a>
+                </article>
+                
+                 <article class="blog-card">
+                      <img src="https://via.placeholder.com/400x200/0d47a1/ffffff?text=Blog+Image+3" alt="Blog Post Image 3" style="margin-bottom: 1rem;">
+                    <h3><span lang="vi">Hướng Dẫn Xây Dựng Kế Hoạch Phản Ứng Sự Cố Hiệu Quả</span><span lang="en">Guide to Building an Effective Incident Response Plan</span></h3>
+                      <p class="meta">
+                        <i class="fas fa-calendar-alt"></i> <span lang="vi">10/04/2025</span><span lang="en">Apr 10, 2025</span> 
+                         <span style="margin: 0 5px;">|</span> <i class="fas fa-user"></i> <span lang="vi">Chuyên gia IR</span><span lang="en">IR Specialist</span>
+                    </p>
+                    <p lang="vi">Các bước cần thiết để tạo một kế hoạch IR chi tiết, bao gồm xác định vai trò, quy trình liên lạc và các công cụ cần thiết...</p>
+                    <p lang="en">Essential steps to create a detailed IR plan, including defining roles, communication procedures, and necessary tools...</p>
+                    <a href="#"><span lang="vi">Đọc thêm</span><span lang="en">Read More</span> <i class="fas fa-arrow-right"></i></a>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="careers" class="container">
+             <h2><span lang="vi">Gia Nhập Đội Ngũ An Ninh Mạng Tinh Nhuệ</span><span lang="en">Join Our Elite Cybersecurity Team</span></h2>
+            <p style="text-align: center;" class="text-muted">
+                <span lang="vi">Chúng tôi luôn tìm kiếm những tài năng đam mê bảo mật để cùng xây dựng một không gian mạng an toàn hơn. Khám phá các cơ hội nghề nghiệp dưới đây!</span>
+                <span lang="en">We are always looking for talented individuals passionate about security to help build a safer cyberspace. Explore career opportunities below!</span>
+            </p>
+
+            <div class="job-opening">
+                 <div class="job-info">
+                    <h3><i class="fas fa-binoculars"></i> L1 Security Analyst</h3>
+                    <div lang="vi">
+                        <p><strong>Mô tả:</strong> Giám sát hệ thống SIEM, phân tích và phân loại cảnh báo bảo mật ban đầu, tuân theo playbook để xử lý các sự cố phổ biến.</p>
+                        <p><strong>Yêu cầu:</strong> Có kiến thức về TCP/IP, hệ điều hành Windows/Linux, khái niệm bảo mật (firewall, IDS/IPS). Có chứng chỉ CompTIA Security+ hoặc tương đương là lợi thế. Tiếng Anh đọc hiểu kỹ thuật.</p>
+                        <p><strong>Quyền lợi:</strong> Được đào tạo chuyên sâu về SIEM và quy trình SOC, lộ trình phát triển lên L2, môi trường năng động, bảo hiểm đầy đủ, team building.</p>
+                    </div>
+                     <div lang="en">
+                         <p><strong>Description:</strong> Monitor SIEM systems, analyze and triage initial security alerts, follow playbooks for common incidents.</p>
+                         <p><strong>Requirements:</strong> Knowledge of TCP/IP, Windows/Linux OS, security concepts (firewall, IDS/IPS). CompTIA Security+ or equivalent is a plus. Technical English reading skills.</p>
+                         <p><strong>Benefits:</strong> In-depth SIEM and SOC process training, L2 career path, dynamic environment, full insurance, team building activities.</p>
+                     </div>
+                </div>
+                <a href="#contact" class="cta-button secondary">
+                    <i class="fas fa-paper-plane"></i> <span lang="vi">Ứng tuyển</span><span lang="en">Apply Now</span>
+                </a>
+            </div>
+
+             <div class="job-opening">
+                 <div class="job-info">
+                    <h3><i class="fas fa-cogs"></i> L2 Incident Responder</h3>
+                     <div lang="vi">
+                         <p><strong>Mô tả:</strong> Điều tra sâu các sự cố bảo mật phức tạp, thực hiện phân tích mã độc cơ bản, phát triển các quy tắc phát hiện mới trên SIEM, hỗ trợ L1.</p>
+                         <p><strong>Yêu cầu:</strong> Kinh nghiệm làm việc 1-2 năm ở vị trí SOC Analyst/IR. Hiểu biết về các kỹ thuật tấn công (MITRE ATT&CK), scripting (Python/PowerShell). Có chứng chỉ CySA+, GCIH là lợi thế.</p>
+                         <p><strong>Quyền lợi:</strong> Tiếp xúc với các sự cố đa dạng, cơ hội học hỏi công nghệ mới, tham gia các dự án cải tiến SOC, chế độ đãi ngộ hấp dẫn.</p>
+                     </div>
+                     <div lang="en">
+                          <p><strong>Description:</strong> Conduct in-depth investigations of complex security incidents, perform basic malware analysis, develop new detection rules on SIEM, support L1 analysts.</p>
+                          <p><strong>Requirements:</strong> 1-2 years experience as SOC Analyst/IR. Understanding of attack techniques (MITRE ATT&CK), scripting (Python/PowerShell). CySA+, GCIH certifications are advantageous.</p>
+                          <p><strong>Benefits:</strong> Exposure to diverse incidents, opportunity to learn new technologies, participate in SOC improvement projects, attractive compensation package.</p>
+                     </div>
+                </div>
+                 <a href="#contact" class="cta-button secondary">
+                    <i class="fas fa-paper-plane"></i> <span lang="vi">Ứng tuyển</span><span lang="en">Apply Now</span>
+                </a>
+            </div>
+             
+              <div class="job-opening">
+                 <div class="job-info">
+                    <h3><i class="fas fa-search"></i> Threat Hunter</h3>
+                     <div lang="vi">
+                         <p><strong>Mô tả:</strong> Chủ động tìm kiếm các mối đe dọa tiềm ẩn dựa trên Threat Intelligence và các giả thuyết tấn công. Phân tích dữ liệu log, network traffic và endpoint data để phát hiện các hoạt động bất thường.</p>
+                         <p><strong>Yêu cầu:</strong> Kinh nghiệm sâu về IR và phân tích log. Hiểu biết về các TTP của APT. Kỹ năng phân tích dữ liệu và sử dụng các công cụ EDR/NDR. Tư duy sáng tạo và khả năng tự nghiên cứu.</p>
+                         <p><strong>Quyền lợi:</strong> Môi trường làm việc thử thách, tự do nghiên cứu, tiếp cận các công cụ và dữ liệu Threat Intel hàng đầu, đóng góp trực tiếp vào việc nâng cao an ninh cho khách hàng.</p>
+                     </div>
+                     <div lang="en">
+                          <p><strong>Description:</strong> Proactively hunt for hidden threats based on Threat Intelligence and attack hypotheses. Analyze log data, network traffic, and endpoint data to detect anomalous activities.</p>
+                          <p><strong>Requirements:</strong> Deep experience in IR and log analysis. Understanding of APT TTPs. Data analysis skills and proficiency with EDR/NDR tools. Creative thinking and self-research ability.</p>
+                          <p><strong>Benefits:</strong> Challenging work environment, research freedom, access to leading tools and Threat Intel data, direct contribution to enhancing client security.</p>
+                     </div>
+                </div>
+                 <a href="#contact" class="cta-button secondary">
+                    <i class="fas fa-paper-plane"></i> <span lang="vi">Ứng tuyển</span><span lang="en">Apply Now</span>
+                </a>
+            </div>
+
+        </section>
+
+        <section id="resources" class="container">
+             <h2><span lang="vi">Tài Nguyên & Tài Liệu Hữu Ích</span><span lang="en">Helpful Resources & Documents</span></h2>
+            <ul class="resource-list">
+                <li>
+                     <i class="fas fa-file-pdf"></i>
+                     <div>
+                        <a href="resources/SOC_Service_Brochure_VI.pdf" download lang="vi">Tải Brochure Dịch vụ SOC (Tiếng Việt)</a> 
+                        <a href="resources/SOC_Service_Brochure_EN.pdf" download lang="en">Download SOC Service Brochure (English)</a>
+                        <p class="text-muted"><span lang="vi">Tổng quan về các dịch vụ và lợi ích chính.</span><span lang="en">Overview of services and key benefits.</span></p>
+                    </div>
+                </li>
+                 <li>
+                     <i class="fas fa-file-alt"></i>
+                      <div>
+                         <a href="resources/SOC_Whitepaper_Threat_Hunting_VI.pdf" download lang="vi">Whitepaper: Tầm quan trọng của Threat Hunting (Tiếng Việt)</a>
+                         <a href="resources/SOC_Whitepaper_Threat_Hunting_EN.pdf" download lang="en">Whitepaper: The Importance of Threat Hunting (English)</a>
+                          <p class="text-muted"><span lang="vi">Phân tích chuyên sâu về phương pháp săn tìm mối đe dọa chủ động.</span><span lang="en">In-depth analysis of proactive threat hunting methodologies.</span></p>
+                     </div>
+                 </li>
+                <li>
+                     <i class="fas fa-video"></i>
+                     <div>
+                        <a href="https://www.youtube.com/watch?v=example" target="_blank" lang="vi">Video: Giới thiệu Trung tâm SOC & Công nghệ</a>
+                        <a href="https://www.youtube.com/watch?v=example" target="_blank" lang="en">Video: SOC Center & Technology Introduction</a>
+                         <p class="text-muted"><span lang="vi">Tham quan ảo trung tâm điều hành và tìm hiểu công nghệ cốt lõi.</span><span lang="en">Virtual tour of our operations center and core technology insights.</span></p>
+                     </div>
+                </li>
+                 <li>
+                     <i class="fas fa-chart-bar"></i>
+                      <div>
+                         <a href="resources/SOC_ROI_Infographic.png" target="_blank" lang="vi">Infographic: ROI khi đầu tư vào Dịch vụ SOC</a>
+                         <a href="resources/SOC_ROI_Infographic.png" target="_blank" lang="en">Infographic: ROI of Investing in SOC Services</a>
+                          <p class="text-muted"><span lang="vi">Minh họa lợi tức đầu tư và các lợi ích tài chính, vận hành.</span><span lang="en">Illustrating return on investment and financial/operational benefits.</span></p>
+                     </div>
+                 </li>
+            </ul>
+        </section>
+
+        <section id="contact" class="container">
+             <h2><span lang="vi">Liên Hệ Với Chúng Tôi</span><span lang="en">Get In Touch With Us</span></h2>
+             <p style="text-align: center;" class="text-muted">
+                 <span lang="vi">Sẵn sàng nâng cao năng lực an ninh mạng của bạn? Điền vào biểu mẫu hoặc liên hệ trực tiếp để được tư vấn.</span>
+                 <span lang="en">Ready to enhance your cybersecurity posture? Fill out the form or contact us directly for a consultation.</span>
+             </p>
+            <div class="contact-flex">
+
+                <div class="contact-form">
+                    <h3><i class="fas fa-paper-plane"></i> <span lang="vi">Gửi Yêu Cầu</span><span lang="en">Send Us a Message</span></h3>
+                    <form id="contactForm" action="#" method="post" onsubmit="return validateForm()"> 
+                        <div class="form-group">
+                            <label for="name" lang="vi">Họ và tên <span style="color:red">*</span></label><label for="name" lang="en">Full Name <span style="color:red">*</span></label>
+                            <input type="text" id="name" name="name" required 
+                                   placeholder-vi="Nhập họ tên của bạn" 
+                                   placeholder-en="Enter your full name">
+                        </div>
+                         <div class="form-group">
+                            <label for="email" lang="vi">Email <span style="color:red">*</span></label><label for="email" lang="en">Email <span style="color:red">*</span></label>
+                            <input type="email" id="email" name="email" required
+                                    placeholder-vi="Nhập địa chỉ email" 
+                                    placeholder-en="Enter your email address">
+                        </div>
+                         <div class="form-group">
+                            <label for="phone" lang="vi">Số điện thoại</label><label for="phone" lang="en">Phone Number</label>
+                            <input type="tel" id="phone" name="phone"
+                                    placeholder-vi="Nhập số điện thoại (tùy chọn)" 
+                                    placeholder-en="Enter your phone number (optional)">
+                         </div>
+                        <div class="form-group">
+                            <label for="company" lang="vi">Công ty</label><label for="company" lang="en">Company</label>
+                            <input type="text" id="company" name="company"
+                                    placeholder-vi="Nhập tên công ty (tùy chọn)" 
+                                    placeholder-en="Enter your company name (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" lang="vi">Nội dung yêu cầu <span style="color:red">*</span></label><label for="message" lang="en">Your Message <span style="color:red">*</span></label>
+                            <textarea id="message" name="message" rows="6" required
+                                    placeholder-vi="Nêu rõ yêu cầu của bạn về dịch vụ SOC, demo, báo giá..." 
+                                    placeholder-en="Detail your request regarding SOC services, demo, quote..."></textarea>
+                        </div>
+                        <button type="submit" class="cta-button">
+                            <i class="fas fa-check-circle"></i> <span lang="vi">Gửi Ngay</span><span lang="en">Send Message</span>
+                        </button>
+                        <div id="form-message" style="margin-top: 15px;"></div>
+                    </form>
+                </div>
+
+                <div class="contact-details">
+                    <h3><i class="fas fa-info-circle"></i> <span lang="vi">Thông Tin Trực Tiếp</span><span lang="en">Direct Information</span></h3>
+                    <p>
+                         <i class="fas fa-map-marker-alt"></i>
+                         <div>
+                            <strong lang="vi">Địa chỉ:</strong><strong lang="en">Address:</strong><br>
+                            <span lang="vi">Tầng 10, Tòa nhà ABC, Số 123 Đường XYZ, Quận Hoàn Kiếm, Hà Nội, Việt Nam</span>
+                            <span lang="en">10th Floor, ABC Building, 123 XYZ Street, Hoan Kiem District, Hanoi, Vietnam</span>
+                        </div>
+                    </p>
+                    <p>
+                         <i class="fas fa-phone-alt"></i>
+                         <div>
+                             <strong lang="vi">Hotline Hỗ trợ:</strong><strong lang="en">Support Hotline:</strong> <br>
+                             <a href="tel:+842412345678">(+84) 24 1234 5678</a>
+                         </div>
+                    </p>
+                     <p>
+                         <i class="fas fa-headset"></i>
+                         <div>
+                             <strong lang="vi">Hotline Kinh doanh:</strong><strong lang="en">Sales Hotline:</strong> <br>
+                             <a href="tel:+84987654321">(+84) 98 7654 321</a>
+                         </div>
+                    </p>
+                    <p>
+                         <i class="fas fa-envelope"></i>
+                         <div>
+                             <strong>Email:</strong><br> 
+                             <a href="mailto:info@yourcompany.com.vn">info@yourcompany.com.vn</a> (<span lang="vi">Chung</span><span lang="en">General</span>)<br>
+                             <a href="mailto:sales@yourcompany.com.vn">sales@yourcompany.com.vn</a> (<span lang="vi">Kinh doanh</span><span lang="en">Sales</span>)
+                         </div>
+                    </p>
+                     <p>
+                         <i class="fas fa-clock"></i>
+                         <div>
+                             <strong lang="vi">Giờ làm việc:</strong><strong lang="en">Working Hours:</strong> <br>
+                             <span lang="vi">Thứ 2 - Thứ 6: 08:00 - 17:30 (GMT+7)</span><span lang="en">Mon - Fri: 08:00 AM - 05:30 PM (GMT+7)</span><br>
+                             <span lang="vi">Hỗ trợ kỹ thuật: 24/7 cho khách hàng có hợp đồng.</span><span lang="en">Technical Support: 24/7 for contracted clients.</span>
+                         </div>
+                    </p>
+
+                    <div class="map-container">
+                       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.096965935479!2d105.8430771147631!3d21.02882708599836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9b16275a8d%3A0x8d6a9a8b5f5a7f0a!2zSG8gR8awxqFtLCBIb8OgbiBLaeG6v20sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1678886050123!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                       </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p lang="vi">&copy; 2025 [Tên công ty của bạn]. Bảo lưu mọi quyền. | <a href="#">Chính sách Bảo mật</a> | <a href="#">Điều khoản Sử dụng</a></p>
+            <p lang="en">&copy; 2025 [Your Company Name]. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+             </div>
+    </footer>
+
+    <script>
+        // --- Language Switching ---
+        const htmlEl = document.documentElement;
+        const viBtn = document.getElementById('lang-vi-btn');
+        const enBtn = document.getElementById('lang-en-btn');
+        const placeholdeElements = document.querySelectorAll('[placeholder-vi], [placeholder-en]');
+
+        function setLanguage(lang) {
+            htmlEl.setAttribute('lang', lang);
+            // Update active button state
+            if (lang === 'vi') {
+                viBtn.classList.add('active');
+                enBtn.classList.remove('active');
+            } else {
+                enBtn.classList.add('active');
+                viBtn.classList.remove('active');
+            }
+            // Update placeholders
+            placeholdeElements.forEach(el => {
+                const placeholderText = el.getAttribute(`placeholder-${lang}`);
+                if (placeholderText) {
+                    el.setAttribute('placeholder', placeholderText);
+                }
+            });
+            // Store preference locally
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        function changeLanguage(lang) {
+            setLanguage(lang);
+        }
+
+        // Load saved language preference or default to 'vi'
+        const savedLang = localStorage.getItem('preferredLanguage');
+        setLanguage(savedLang || 'vi'); // Initialize language on load
+
+        // --- Smooth Scrolling & Active Nav Link ---
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+        const header = document.querySelector('header');
+        const langSwitcher = document.querySelector('.lang-switch');
+
+        function getOffsetTop(element) {
+            let offsetTop = 0;
+            while(element) {
+                offsetTop += element.offsetTop;
+                element = element.offsetParent;
+            }
+            return offsetTop;
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerHeight = header.offsetHeight;
+                    const langSwitcherHeight = langSwitcher.offsetHeight;
+                    // Use getOffsetTop for potentially complex layouts
+                    const offsetTop = getOffsetTop(targetSection) - headerHeight - langSwitcherHeight - 15; // Extra space
+
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open (add this logic if you implement a mobile menu)
+                }
+            });
+        });
+        
+        // Debounce function to limit scroll event checks
+        function debounce(func, wait = 15, immediate = true) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                const later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                const callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+
+        const setActiveLink = debounce(() => {
+             let current = '';
+            const headerHeight = header.offsetHeight;
+            const langSwitcherHeight = langSwitcher.offsetHeight;
+            // Add a bit more offset to trigger activation slightly earlier
+            const scrollPosition = window.pageYOffset + headerHeight + langSwitcherHeight + 50; 
+
+            sections.forEach(section => {
+                const sectionTop = getOffsetTop(section);
+                 // Check if section is within viewport bounds
+                const sectionHeight = section.offsetHeight;
+                 // Activate if the top of the section is within the top part of the viewport
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                     current = section.getAttribute('id');
+                }
+            });
+             
+            // Special case for reaching the very bottom (Contact section might not fill screen)
+            if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 50) { // Check if near bottom
+                const lastSection = sections[sections.length - 1];
+                if (lastSection) {
+                    current = lastSection.getAttribute('id');
+                }
+            }
+
+             navLinks.forEach(link => {
+                 link.classList.remove('active');
+                 if (link.getAttribute('href') === '#' + current) {
+                     link.classList.add('active');
+                 }
+             });
+             
+             // Handle top of page explicitly
+            if (window.pageYOffset < sections[0].offsetTop / 2) { // If very close to top
+                navLinks.forEach(link => link.classList.remove('active'));
+                const homeLink = document.querySelector('.nav-link[href="#home"]');
+                if (homeLink) homeLink.classList.add('active');
+            }
+         }, 50); // Run checks less frequently during scroll
+
+
+        window.addEventListener('scroll', setActiveLink);
+        // Run once on load as well
+        document.addEventListener('DOMContentLoaded', setActiveLink);
+
+
+        // --- Basic Form Validation ---
+        function validateForm() {
+            const form = document.getElementById('contactForm');
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const formMessageDiv = document.getElementById('form-message');
+            formMessageDiv.textContent = ''; // Clear previous messages
+            formMessageDiv.className = ''; // Clear previous classes
+
+            let isValid = true;
+            let errorMessages = [];
+            const currentLang = htmlEl.getAttribute('lang') || 'vi';
+
+            if (name === '') {
+                isValid = false;
+                errorMessages.push(currentLang === 'vi' ? 'Họ tên là bắt buộc.' : 'Full name is required.');
+            }
+            if (email === '') {
+                isValid = false;
+                 errorMessages.push(currentLang === 'vi' ? 'Email là bắt buộc.' : 'Email is required.');
+            } else {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                     isValid = false;
+                      errorMessages.push(currentLang === 'vi' ? 'Định dạng email không hợp lệ.' : 'Invalid email format.');
+                }
+            }
+            if (message === '') {
+                 isValid = false;
+                  errorMessages.push(currentLang === 'vi' ? 'Nội dung yêu cầu là bắt buộc.' : 'Message is required.');
+            }
+
+            if (!isValid) {
+                 formMessageDiv.classList.add('error'); // Add error class for styling
+                 // Display errors as a list
+                 formMessageDiv.innerHTML = `<ul>${errorMessages.map(msg => `<li>${msg}</li>`).join('')}</ul>`;
+                return false; // Prevent form submission
+            }
+
+             // --- Simulate Form Submission (Replace with actual AJAX) ---
+             formMessageDiv.classList.add('success');
+             formMessageDiv.textContent = (currentLang === 'vi' ? 'Đang gửi yêu cầu...' : 'Sending request...');
+             
+             // Disable button to prevent multiple submits
+             const submitButton = form.querySelector('button[type="submit"]');
+             submitButton.disabled = true;
+             submitButton.style.opacity = '0.7';
+             submitButton.style.cursor = 'not-allowed';
+
+             // Simulate network delay
+             setTimeout(() => {
+                 // Reset form (optional)
+                 // form.reset(); 
+                 
+                 formMessageDiv.textContent = (currentLang === 'vi' ? 'Yêu cầu của bạn đã được gửi thành công!' : 'Your request has been sent successfully!');
+                 
+                 // Re-enable button after a further delay
+                 setTimeout(() => {
+                     formMessageDiv.textContent = '';
+                     formMessageDiv.className = '';
+                     submitButton.disabled = false;
+                     submitButton.style.opacity = '1';
+                     submitButton.style.cursor = 'pointer';
+                 }, 3000); // Hide success message after 3 seconds
+
+             }, 1500); // Simulate 1.5 second delay
+
+             return false; // IMPORTANT: Prevent default form submission since we simulated it
+        }
+
+    </script>
+
+</body>
+</html>
